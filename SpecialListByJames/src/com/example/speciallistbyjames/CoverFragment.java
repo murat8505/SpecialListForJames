@@ -58,6 +58,10 @@ public class CoverFragment extends Fragment {
 		return rootView;
 	}
 
+	public void refresh() {
+		CoverController.refreshData(mFirstLoadListener, mErrorListener);
+	}
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -65,7 +69,7 @@ public class CoverFragment extends Fragment {
 		isLoading = true;
 		CoverController.loadFirstBatchData(mFirstLoadListener, mErrorListener);
 	}
- 
+
 	protected void onLoading() {
 		isLoading = true;
 	}
@@ -114,7 +118,7 @@ public class CoverFragment extends Fragment {
 		@Override
 		public void onErrorResponse(VolleyError error) {
 
-			Toast.makeText(getActivity(), error.getMessage(),
+			Toast.makeText(getActivity(), error.getMessage() + "",
 					Toast.LENGTH_SHORT).show();
 			onLoaded();
 		}

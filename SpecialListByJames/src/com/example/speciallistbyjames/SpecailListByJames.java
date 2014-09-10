@@ -1,14 +1,19 @@
 package com.example.speciallistbyjames;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.android.volley.toolbox.Volley;
+import com.example.speciallistbyjames.manager.CoverController;
 import com.example.speciallistbyjames.manager.VolleyBitmapCache;
 
 public class SpecailListByJames extends Activity {
+
+	CoverFragment mCoverFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -19,8 +24,9 @@ public class SpecailListByJames extends Activity {
 
 		setContentView(R.layout.activity_specail_list_by_james);
 		if (savedInstanceState == null) {
+			mCoverFragment = new CoverFragment();
 			getFragmentManager().beginTransaction()
-					.add(R.id.container, new CoverFragment()).commit();
+					.add(R.id.container, mCoverFragment).commit();
 		}
 	}
 
@@ -36,10 +42,38 @@ public class SpecailListByJames extends Activity {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		final int id = item.getItemId();
+		switch (id) {
+		case R.id.action_refresh:
+
+			if (mCoverFragment != null) {
+				mCoverFragment.refresh();
+			}
+
+			return true;
+
+		case R.id.action_clean:
+
+			final ProgressDialog mProgressDialog = new ProgressDialog(
+					SpecailListByJames.this);
+			mProgressDialog.setCancelable(false);
+			mProgressDialog.setMessage("Cleaning cache ...");
+			mProgressDialog.show();
+
+			CoverController.cleanCache(new Runnable() {
+
+				@Override
+				public void run() {
+
+					mProgressDialog.dismiss();
+					Toast.makeText(SpecailListByJames.this, "Clean Finished",
+							Toast.LENGTH_SHORT).show();
+
+				}
+			});
 			return true;
 		}
+
 		return super.onOptionsItemSelected(item);
 	}
 

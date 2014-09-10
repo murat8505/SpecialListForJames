@@ -91,6 +91,8 @@ public abstract class Request<T> implements Comparable<Request<T>> {
 
     /** The retry policy for this request. */
     private RetryPolicy mRetryPolicy;
+    
+    private boolean mForceRefresh = false;
 
     /**
      * When a request can be retrieved from cache but must be refreshed from
@@ -150,6 +152,16 @@ public abstract class Request<T> implements Comparable<Request<T>> {
      */
     public Object getTag() {
         return mTag;
+    }
+    
+    public boolean isForceRefresh()
+    {
+    	return mForceRefresh;
+    }
+    
+    public void setForceRefresh(boolean value)
+    {
+    	mForceRefresh = value;
     }
 
     /**
