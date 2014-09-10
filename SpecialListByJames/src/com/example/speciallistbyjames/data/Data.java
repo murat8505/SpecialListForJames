@@ -23,6 +23,10 @@ public class Data {
 		this.info = info;
 	}
 	
-	
+	public void fillNextBactchData(Data mData)
+	{
+		this.info = mData.info;
+		this.articles.addAll(mData.getArticles());
+	}
 
 }

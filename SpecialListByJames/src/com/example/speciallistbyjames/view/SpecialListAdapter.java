@@ -7,19 +7,18 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.example.speciallistbyjames.R;
 import com.example.speciallistbyjames.data.Article;
-import com.example.speciallistbyjames.data.Result;
+import com.example.speciallistbyjames.data.CoverResult;
 import com.example.speciallistbyjames.manager.VolleyBitmapCache;
 
 public class SpecialListAdapter extends BaseAdapter {
 
 	LayoutInflater mLayoutInflater;
-	Result mResult = null;
+	CoverResult mResult = null;
 
-	public SpecialListAdapter(Context context, Result mResult) {
+	public SpecialListAdapter(Context context, CoverResult mResult) {
 		mLayoutInflater = LayoutInflater.from(context);
 		this.mResult = mResult;
 	}
