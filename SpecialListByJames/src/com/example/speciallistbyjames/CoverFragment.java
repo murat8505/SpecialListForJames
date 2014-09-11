@@ -1,25 +1,24 @@
 package com.example.speciallistbyjames;
-
-import com.android.volley.VolleyError;
-import com.android.volley.Response.ErrorListener;
-import com.android.volley.Response.Listener;
-import com.android.volley.toolbox.StringRequest;
-import com.example.speciallistbyjames.data.CoverResult;
-import com.example.speciallistbyjames.manager.ApiParamsUtil;
-import com.example.speciallistbyjames.manager.CoverController;
-import com.example.speciallistbyjames.manager.VolleyBitmapCache;
-import com.example.speciallistbyjames.view.SpecialListAdapter;
-import com.google.gson.Gson;
-
-import android.app.Fragment;
+ 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.AbsListView.OnScrollListener;
+
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
+import com.example.speciallistbyjames.data.CoverResult;
+import com.example.speciallistbyjames.manager.CoverController;
+import com.example.speciallistbyjames.view.SpecialListAdapter;
+import com.google.gson.Gson;
 
 public class CoverFragment extends Fragment {
 
@@ -38,7 +37,8 @@ public class CoverFragment extends Fragment {
 		mListView = (ListView) rootView.findViewById(R.id.list);
 
 		mListView.setAdapter(new SpecialListAdapter(getActivity(), null));
-
+		mListView.setDividerHeight(0);
+		mListView.setDivider(new ColorDrawable(Color.TRANSPARENT));
 		mListView.setOnScrollListener(new OnScrollListener() {
 
 			@Override

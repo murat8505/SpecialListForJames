@@ -1,17 +1,18 @@
 package com.example.speciallistbyjames;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.speciallistbyjames.R;
 import com.android.volley.toolbox.Volley;
 import com.example.speciallistbyjames.manager.CoverController;
 import com.example.speciallistbyjames.manager.VolleyBitmapCache;
 
-public class SpecailListByJames extends Activity {
+public class SpecailListByJames extends FragmentActivity {
 
 	CoverFragment mCoverFragment;
 
@@ -25,7 +26,7 @@ public class SpecailListByJames extends Activity {
 		setContentView(R.layout.activity_specail_list_by_james);
 		if (savedInstanceState == null) {
 			mCoverFragment = new CoverFragment();
-			getFragmentManager().beginTransaction()
+			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, mCoverFragment).commit();
 		}
 	}

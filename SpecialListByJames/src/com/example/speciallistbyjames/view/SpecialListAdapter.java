@@ -51,13 +51,13 @@ public class SpecialListAdapter extends BaseAdapter {
 		int type = getItemViewType(position);
 		if (contentView == null) {
 			contentView = mLayoutInflater
-					.inflate(type == 0 ? R.layout.list_item1
-							: R.layout.list_item2, null);
+					.inflate(type == 0 ? R.layout.list_item2
+							: R.layout.list_item1, null);
 
 		}
 
 		Article mArticle = mResult.getArticles().get(position / 2);
-		if (type == 0) {
+		if (type == 1) {
 			String comment = mArticle.getMedia().get(0).getComment();
 			((TextView) contentView.findViewById(R.id.text)).setText(comment);
 
