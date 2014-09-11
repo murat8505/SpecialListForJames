@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -18,7 +21,7 @@ public class RoundedImageView extends NetworkImageView {
 	public static final String TAG = "RoundedImageView";
 	public static final float DEFAULT_RADIUS = 10f;
 	public static final float DEFAULT_BORDER_WIDTH = 0f;
-	  
+
 	private float cornerRadius = DEFAULT_RADIUS;
 	private float borderWidth = DEFAULT_BORDER_WIDTH;
 	private ColorStateList borderColor = ColorStateList
@@ -109,6 +112,26 @@ public class RoundedImageView extends NetworkImageView {
 		mResource = 0;
 		mDrawable = RoundedDrawable.fromBitmap(bm);
 		updateDrawableAttrs();
+		super.setImageDrawable(mDrawable);
+	}
+
+	public void setImageBitmap(Bitmap bm, boolean isImmediate) {
+
+		mResource = 0;
+		mDrawable = RoundedDrawable.fromBitmap(bm);
+		updateDrawableAttrs();
+
+		if (!isImmediate) {
+			if (mDrawable != null) {
+				TransitionDrawable mTransitionDrawable = new TransitionDrawable(
+						new Drawable[] { new ColorDrawable(Color.TRANSPARENT),
+								mDrawable });
+				super.setImageDrawable(mTransitionDrawable);
+				mTransitionDrawable.startTransition(250);
+				return;
+			}
+
+		}
 		super.setImageDrawable(mDrawable);
 	}
 
