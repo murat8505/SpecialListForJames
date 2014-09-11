@@ -2,19 +2,27 @@ package com.example.speciallistbyjames;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.speciallistbyjames.R;
 import com.android.volley.toolbox.Volley;
 import com.example.speciallistbyjames.manager.CoverController;
 import com.example.speciallistbyjames.manager.VolleyBitmapCache;
+import com.jfeinstein.jazzyviewpager.JazzyViewPager;
+import com.jfeinstein.jazzyviewpager.JazzyViewPager.TransitionEffect;
+import com.jfeinstein.jazzyviewpager.PagerSlidingTabStrip;
 
 public class SpecailListByJames extends FragmentActivity {
-
-	CoverFragment mCoverFragment;
+  
+	private JazzyViewPager mJazzy;
+	private PagerSlidingTabStrip mPagerSlidingTabStrip;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -24,11 +32,20 @@ public class SpecailListByJames extends FragmentActivity {
 				.newRequestQueue(getApplicationContext());
 
 		setContentView(R.layout.activity_specail_list_by_james);
-		if (savedInstanceState == null) {
-			mCoverFragment = new CoverFragment();
-			getSupportFragmentManager().beginTransaction()
-					.add(R.id.container, mCoverFragment).commit();
-		}
+
+		setupJazziness(TransitionEffect.Standard);
+	}
+
+	private void setupJazziness(TransitionEffect effect) {
+		mPagerSlidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.indicate);
+		mPagerSlidingTabStrip.setShouldExpand(true);
+		mJazzy = (JazzyViewPager) findViewById(R.id.jazzy_pager);
+		mJazzy.setOffscreenPageLimit(3);
+		mJazzy.setTransitionEffect(effect);
+		mJazzy.setAdapter(new DemoAdapter(getSupportFragmentManager()));
+		mJazzy.setPageMargin(30);
+
+		mPagerSlidingTabStrip.setViewPager(mJazzy);
 	}
 
 	@Override
@@ -36,6 +53,46 @@ public class SpecailListByJames extends FragmentActivity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.specail_list_by_james, menu);
 		return true;
+	}
+
+	private class DemoAdapter extends FragmentPagerAdapter {
+
+		public DemoAdapter(FragmentManager fm) {
+			super(fm);
+		}
+
+		@Override
+		public Fragment getItem(int position) {
+			Fragment mFragment = new CoverFragment();
+			return mFragment;
+		}
+
+		@Override
+		public boolean isViewFromObject(View view, Object object) {
+			if (object != null) {
+				return ((Fragment) object).getView() == view;
+			} else {
+				return false;
+			}
+		}
+
+		@Override
+		public Object instantiateItem(ViewGroup container, final int position) {
+			Object obj = super.instantiateItem(container, position);
+			mJazzy.setObjectForPosition(obj, position);
+			return obj;
+		}
+
+		@Override
+		public int getCount() {
+			// TODO Auto-generated method stub
+			return 4;
+		}
+
+		@Override
+		public CharSequence getPageTitle(int position) {
+			return "Tab " + position;
+		}
 	}
 
 	@Override
@@ -46,11 +103,7 @@ public class SpecailListByJames extends FragmentActivity {
 		final int id = item.getItemId();
 		switch (id) {
 		case R.id.action_refresh:
-
-			if (mCoverFragment != null) {
-				mCoverFragment.refresh();
-			}
-
+			
 			return true;
 
 		case R.id.action_clean:
